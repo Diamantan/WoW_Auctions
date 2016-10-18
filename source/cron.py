@@ -95,17 +95,17 @@ if __name__ == "__main__":
         log("Getting realm list...")
         realms = api.get_realms()
         log("Retrieved %s realms, sending to the realm pool"%len(realms))
-        nrealms = 6
+        nrealms = 12
         print [realms[i].name for i in range(nrealms)]
-        # print len(realms)
-        # for i in range(3):
-        #     HandleRealm(realms[i])
+        print len(realms)
+        for i in range(nrealms):
+            HandleRealm(realms[i])
             
-        log("Spinning up thread pools...")
-        realm_pool = multiprocessing.pool.ThreadPool(4)
-        if "--debug" in sys.argv:
-            HandleRealm([x for x in realms if x.slug == "deathwing"][0])
-        else:
-            realm_pool.map(HandleRealm, realms[:nrealms])
+        # log("Spinning up thread pools...")
+        # realm_pool = multiprocessing.pool.ThreadPool(4)
+        # if "--debug" in sys.argv:
+        #     HandleRealm([x for x in realms if x.slug == "deathwing"][0])
+        # else:
+        #     realm_pool.map(HandleRealm, realms[:nrealms])
     finally:
         lock.release()

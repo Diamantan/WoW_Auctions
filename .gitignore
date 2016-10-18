@@ -6,10 +6,12 @@ Lib
 Scripts
 *.project
 *.pydevproject
-src/auction_cache
+source/auction_cache
 auction_cache
 *.class
 *.pyc
 *.pyo
 *.lock
-src/cronlog
+source/cronlog
+source/diamantan*
+source/ubuntu*
