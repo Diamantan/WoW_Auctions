@@ -15,3 +15,5 @@ auction_cache
 source/cronlog
 source/diamantan*
 source/ubuntu*
+*.swp
+
