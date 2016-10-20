@@ -16,4 +16,5 @@ source/cronlog
 source/diamantan*
 source/ubuntu*
 *.swp
+venv/
 
