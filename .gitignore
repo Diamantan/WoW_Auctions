@@ -18,3 +18,4 @@ source/ubuntu*
 *.swp
 venv/
 
+cronlog
