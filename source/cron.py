@@ -3,41 +3,21 @@
 
 import lockfile
 import sys
-if __name__ == '__main__':
-    lock = lockfile.LockFile("auctioncron.lock")
-    while not lock.i_am_locking():
-        try:
-            print "Getting the lock..."
-            lock.acquire(timeout=60)
-            print "Lock acquired"
-        except lockfile.LockTimeout:
-            print "Could not get the lock in 60 seconds, exiting."
-            sys.exit(1)
-
 import models
 import battlenet
 import time
 import os
-import multiprocessing.pool
 import json
 import datetime
 from numpy import array as nparray
 from sqlalchemy import exc
-from pprint import pprint as pp
 import wow_eco_funcs
-#from sqlalchemy.orm.exc import NoResultFound
-
-#logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 def log(message):
-    # Quick and dirty.
-    #sys.stdout.write("%s: %s\n"%(time.asctime(), message))
     print (u"%s: %s"%(time.asctime(), message)).encode("utf-8")
-        
 
 def HandleRealm(realm):
-    api = battlenet.BattleNetApi(log)                               # <class 'battlenet.BattleNetApi'> 
-        # api.logger = log              
+    api = battlenet.BattleNetApi(log)                      
     
     log("Connecting to the database...")
     session = models.Session()
@@ -85,27 +65,29 @@ def HandleRealm(realm):
     log("   - Finished realm %s"%realm.slug)
 
 if __name__ == "__main__":
+    lock = lockfile.LockFile("auctioncron")
+    while not lock.i_am_locking():
+        try:
+            print "Getting the lock..."
+            lock.acquire(timeout=60)
+            print "Lock acquired"
+        except lockfile.LockTimeout:
+            print "Could not get the lock in 60 seconds, exiting."
+            sys.exit(1)
     try:
         if not os.path.exists("auction_cache"):
             os.mkdir("auction_cache")
 
-
-        api = battlenet.BattleNetApi(log)
-
-        log("Getting realm list...")
-        realms = api.get_realms()
-        log("Retrieved %s realms, sending to the realm pool"%len(realms))
         nrealms = 22
+        api = battlenet.BattleNetApi(log)
+        log("Getting realm list...")
+        realms = api.get_realms() # list of Realm objects
+        log("Retrieved %s realms, sending to the realm pool"%len(realms))
         print [realms[i].name for i in range(nrealms)]
-        print len(realms)
-        for i in range(nrealms):
-            HandleRealm(realms[i])
-            
-        # log("Spinning up thread pools...")
-        # realm_pool = multiprocessing.pool.ThreadPool(4)
-        # if "--debug" in sys.argv:
-        #     HandleRealm([x for x in realms if x.slug == "deathwing"][0])
-        # else:
-        #     realm_pool.map(HandleRealm, realms[:nrealms])
+        if "--debug" in sys.argv:
+            HandleRealm([x for x in realms if x.slug == "aggra-portugues"][0])
+        else:
+            for i in range(nrealms):
+                HandleRealm(realms[i])
     finally:
         lock.release()
