@@ -7,7 +7,11 @@ import datetime
 import time
 import sys
 
-engine = create_engine("postgresql+psycopg2://diamantan:postpass@localhost:5432/wow_economy",isolation_level="REPEATABLE_READ", echo=True, client_encoding='utf8')
+engine = create_engine(
+        "postgresql+psycopg2://diamantan:postpass@localhost:5432/wow_economy",
+        isolation_level="REPEATABLE_READ", 
+        echo=True, 
+        client_encoding='utf8')
 Base = declarative_base()
 Session = ScopedSession(sessionmaker(bind=engine))
 
@@ -87,12 +91,6 @@ class UserAuction(Base):
         self.realm = realm
         self.lastUpdated = datetime.datetime.now()
         self.items = items
-
-
-#class Faction(Base):
-#    __tablename__ = "factions"
-#    id = Column(Integer, primary_key=True)
-#    name = Column(String(8))
 
 
 class Price(Base):

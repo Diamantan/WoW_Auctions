@@ -34,7 +34,6 @@ class BattleNetApi(object):
         
     def get_content(self, url):
         try:
-            #r = requests.get(url)
             r = urllib2.urlopen(url)
         except Exception,e:
             self.logger("Request to %s failed. Traceback:"%url)

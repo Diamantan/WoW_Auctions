@@ -31,15 +31,19 @@ def HandleRealm(realm):
         session.close()
         return None
     except Exception:
-        db_realm = models.Realm(realm.name, realm.slug)         # db_realm.lastupdate = 0
+        db_realm = models.Realm(realm.name, realm.slug)
+        ## db_realm.lastupdate == 0
+        ## db_realm.auction_count is initialized later
         session.add(db_realm)
         session.commit()
-    
+
     log("  - DB LastModified: %s"%time.ctime(db_realm.lastupdate))
     
     for i in xrange(5):
         try:
-            lastModified, auctions = api.get_auction(realm.slug, db_realm.lastupdate)
+            lastModified, auctions = api.get_auction(
+                    realm.slug, 
+                    db_realm.lastupdate)
             break
         except Exception:
             if i == 4:
