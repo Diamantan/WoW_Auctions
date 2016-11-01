@@ -10,9 +10,9 @@ app = Flask(__name__)
 
 @app.route('/wowp2')
 def index():
-    realm_count = g.db.query(models.Realm).count()
-    return render_template("index.html",realm_count=realm_count)
-    # return render_template("index.html")
+#    realm_count = g.db.query(models.Realm).count()
+#    return render_template("index.html",realm_count=realm_count)
+     return render_template("index.html")
 
 @app.route('/wowp2/realm')
 def realms():
@@ -113,4 +113,4 @@ def after_request(r):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')
