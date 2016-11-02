@@ -8,7 +8,7 @@ import time
 import sys
 
 engine = create_engine(
-        "postgresql+psycopg2://diamantan:postpass@localhost:5432/wow_economy",
+        "postgresql+psycopg2://docker@postgres_container:5432/wow_economy",
         isolation_level="REPEATABLE_READ", 
         echo=True, 
         client_encoding='utf8')
