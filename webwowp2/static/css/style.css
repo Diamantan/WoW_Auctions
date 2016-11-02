@@ -21,3 +21,61 @@ h1, h2, h3, h4 {
     text-shadow: rgba(255,255,255, 0.5) 0px 1px 1px;
 }
 
+/*WOW*/
+.navbar-default {
+    font-family: "Avenir Next", Helvetica, Arial, sans-serif;
+    font-size: 1.875em;
+}
+
+.navbar-default a:hover {
+    color: #6b2339 !important;
+    text-decoration: none !important;
+}
+.navbar-default a {
+    color: #fe5f55 !important;
+    text-decoration: none !important;
+    transition: 0.3s !important;
+}
+
+.navbar-default a.navbar-brand:hover {
+    color: #6b2339;
+    text-decoration: none;
+}
+.navbar-default a.navbar-brand {
+    color: #fe5f55;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.container-fluid {
+    display: table;
+    width: 100%;
+}
+
+#navbar {
+    display: table-cell !important;
+}
+
+/*Realm*/
+
+.gradient-bar {
+    position: relative;
+}
+.site-header {
+    padding: 2em 0 0;
+    background: url(../img/wowheader-bg2.png);
+    background-size: 400px 400px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+.gradient-bar:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.5em;
+    background: linear-gradient(to right, #92b5bd 0%, #92b5bd 25%, #ede24e 25%, #ede24e 50%, #df6d59 50%, #df6d59 75%, #6b2339 75%, #6b2339 100%);
+}
+
