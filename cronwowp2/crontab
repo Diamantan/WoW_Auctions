@@ -1,2 +1,2 @@
-01,31 * * * * root /usr/local/bin/python /cronwowp2/source/cron.py >> /var/log/cronwowp2.log
+01,16,31,46 * * * * root /usr/local/bin/python /cronwowp2/source/cron.py >> /var/log/cronwowp2.log
 
