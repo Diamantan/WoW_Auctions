@@ -10,13 +10,20 @@ app = Flask(__name__)
 
 @app.route('/wowp2')
 def index():
-    realm_count = g.db.query(models.Realm).count()
-    return render_template("index.html",realm_count=realm_count)
+#    realm_count = g.db.query(models.Realm).count()
+#    return render_template("index.html",realm_count=realm_count)
+     return render_template("index.html")
 
-@app.route('/wowp2/realm')
-def realms():
-    realms = g.db.query(models.Realm).order_by(models.Realm.name.asc()).all()
-    return render_template("realms.html",realms=realms)
+#@app.route("/wowp2/<cat>")
+#def nav(cat):
+#    cat_list = {'home': "Home", 'about':"About", 'realm':"Realms", 'item':"Search Items"}
+#    for key in cat_list :
+#        if cat == "" :
+#            cat = "home"
+#        classVisiting = ""
+#        if key == cat :
+#            classVisiting = "visiting"
+#    return render_template("layout.html",cat_list=cat_list)
 
 @app.route("/wowp2/realm/<realm>")
 def view_realm(realm):
