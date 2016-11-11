@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <script type="text/javascript" src="/wowp2{{ url_for('static',filename='js/jquery-ui-1.8.16.custom.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-ui-1.8.16.custom.min.js') }}"></script>
 
     <script>
        $(document).ready(function(){
@@ -10,7 +10,7 @@
                source:"{{ url_for('item_search') }}",
                minLength:3,
                select: function(e,ui) {
-                   window.location.href = "{{ url_for('view_items') }}/"+ui.item.value;
+                   window.location.href = "/item/" + ui.item.value;
                }
            })
        })
