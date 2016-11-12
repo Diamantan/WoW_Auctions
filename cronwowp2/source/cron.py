@@ -92,6 +92,9 @@ if __name__ == "__main__":
             HandleRealm([x for x in realms if x.slug == "aggra-portugues"][0])
         else:
             for i in range(nrealms):
-                HandleRealm(realms[i])
+                try:
+                    HandleRealm(realms[i])
+                except Exception as e:
+                    print str(e)
     finally:
         lock.release()
