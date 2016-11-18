@@ -5,7 +5,10 @@
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(event) {
     svg = d3.select("svg");
-    d3.select("body").selectAll("p").data({{ auc_sums }}).html(function(d) {return d})
+    var import_dates= {{ auc_dates|safe }}
+    var js_dates = import_dates.map(function(elem) {
+        return new Date(elem) });
+    d3.select("body").selectAll("p").data(js_dates).html(function(d) {return d})
         .enter().append("p").text(function(d) {return d});
     svg.selectAll("rect").attr("width", 500).style("color", "#bbb");
     })

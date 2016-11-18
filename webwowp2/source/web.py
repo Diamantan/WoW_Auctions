@@ -18,13 +18,13 @@ def index():
                     func.sum(models.Price.quantity))\
                 .group_by(models.Price.day)\
                 .order_by(models.Price.day).all()
-    auc_dates = [x[0] for x in auc_day]
+    auc_dates = [x[0].isoformat() for x in auc_day]
     auc_sums = [x[1] for x in auc_day]
-    #aucs = g.db.query(func.sum(models.Price.quantity)).first()
     print("\n###########################\n", file=sys.stderr)
-    print([auc_sums, type(auc_sums), type(auc_sums[0])], file=sys.stderr)
+    print([auc_dates, type(auc_dates), type(auc_dates[0])], file=sys.stderr)
     return render_template("index.html", 
             realm_count=realm_count,
+            auc_dates=json.dumps(auc_dates),
             auc_sums=json.dumps(auc_sums))
 
 @app.route('/realm')
@@ -146,3 +146,4 @@ def after_request(r):
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
+
