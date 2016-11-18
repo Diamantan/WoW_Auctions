@@ -96,5 +96,7 @@ if __name__ == "__main__":
                     HandleRealm(realms[i])
                 except Exception as e:
                     print str(e)
+                    print '\n\n\tOne more try\n\n'
+                    HandleRealm(realms[i])
     finally:
         lock.release()
