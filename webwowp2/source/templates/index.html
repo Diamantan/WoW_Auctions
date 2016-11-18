@@ -5,11 +5,7 @@
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(event) {
     svg = d3.select("svg");
-    var sums= []
-    {% for sum in auc_sums %}
-        sums.push({{ sum }})
-    {% endfor %}
-    d3.select("body").selectAll("p").data(sums).html(function(d) {return d})
+    d3.select("body").selectAll("p").data({{ auc_sums }}).html(function(d) {return d})
         .enter().append("p").text(function(d) {return d});
     svg.selectAll("rect").attr("width", 500).style("color", "#bbb");
     })

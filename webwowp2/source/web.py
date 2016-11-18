@@ -25,7 +25,7 @@ def index():
     print([auc_sums, type(auc_sums), type(auc_sums[0])], file=sys.stderr)
     return render_template("index.html", 
             realm_count=realm_count,
-            auc_sums=auc_sums)
+            auc_sums=json.dumps(auc_sums))
 
 @app.route('/realm')
 def realms():
