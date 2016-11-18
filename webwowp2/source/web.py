@@ -1,6 +1,9 @@
 # Web.py
 
-from flask import Flask, g, render_template, abort, request, redirect, url_for, jsonify
+from __future__ import print_function
+from flask import (Flask, g, render_template, abort, 
+                    request, redirect, url_for, jsonify)
+import sys
 import models
 import json
 import datetime
@@ -11,7 +14,18 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     realm_count = g.db.query(models.Realm).count()
-    return render_template("index.html",realm_count=realm_count)
+    auc_day = g.db.query(models.Price.day, 
+                    func.sum(models.Price.quantity))\
+                .group_by(models.Price.day)\
+                .order_by(models.Price.day).all()
+    auc_dates = [x[0] for x in auc_day]
+    auc_sums = [x[1] for x in auc_day]
+    #aucs = g.db.query(func.sum(models.Price.quantity)).first()
+    print("\n###########################\n", file=sys.stderr)
+    print([auc_sums, type(auc_sums), type(auc_sums[0])], file=sys.stderr)
+    return render_template("index.html", 
+            realm_count=realm_count,
+            auc_sums=auc_sums)
 
 @app.route('/realm')
 def realms():
