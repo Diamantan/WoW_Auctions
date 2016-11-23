@@ -1,25 +1,87 @@
 {% extends "layout.html" %}
 
 {% block head %}
-<script type="text/javascript" src="{{url_for('static',filename='js/d3.min.js') }}"></script>
-  <script type="text/javascript">
+<style>
+    path {
+        stroke: steelblue;
+        stroke-width: 2;
+        fill: none;
+    }
+    .axis {
+      shape-rendering: crispEdges;
+    }
+
+//    .x.axis line {
+//      stroke: lightgrey;
+//    }
+//
+//    .x.axis .minor {
+//      stroke-opacity: .5;
+//    }
+//
+//    .x.axis path {
+//      display: none;
+//    }
+//
+    .y.axis line, .y.axis path {
+      fill: none;
+      stroke: #000;
+    }
+</style>
+<script type="text/javascript" 
+        src="{{url_for('static',filename='js/d3.min.js') }}">
+</script>
+<script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function(event) {
-    svg = d3.select("svg");
-    var import_dates= {{ auc_dates|safe }}
-    var js_dates = import_dates.map(function(elem) {
-        return new Date(elem) });
-    d3.select("body").selectAll("p").data(js_dates).html(function(d) {return d})
-        .enter().append("p").text(function(d) {return d});
-    svg.selectAll("rect").attr("width", 500).style("color", "#bbb");
-    })
-  </script>
+      var margin = {"top": 50, "bottom": 20, "left": 70, "right": 20};
+      var sums = {{ auc_sums }};
+      var dates = {{ auc_dates|safe }};
+      var timeparser = d3.timeParse('%Y-%m-%d');
+      var line_data = sums.map(function(d, i) {
+                                return {"date":timeparser(dates[i]), "sum":d}; });
+      var svg = d3.select("svg");
+      var svg_width = +svg.attr("width");
+      var svg_height = +svg.attr("height");
+      var g_width = svg_width - margin.left - margin.right;
+      var g_height= svg_height- margin.top - margin.bottom;
+      var g_translate = 'translate(' + margin.left + ',' +  margin.top + ')'
+      var g = svg.append("g")
+                .attr("width", g_width)
+                .attr("height", g_height)
+                .attr("transform", g_translate);
+      var xScale = d3.scaleTime()
+                      .domain(d3.extent(dates, 
+                              function(d) {return timeparser(d); }))
+                      .range([0, g_width]);
+      var yScale = d3.scaleLinear()
+                    .domain([0, d3.max(sums)])
+                    .range([g_height, 0]);
+      var line = d3.line()
+                    .x(function(d, i) {return xScale(d.date); })
+                    .y(function(d, i) {return yScale(d.sum); });
+      var xAxis = d3.axisBottom().scale(xScale)
+                    .tickFormat(d3.timeFormat("%_d %b"));
+      var yAxis = d3.axisLeft().scale(yScale);
+      svg.append("text")
+          .text("Number of auctions tracked over all realms")
+          .attr("x", (svg_width/2))
+          .attr("y", (margin.top/2))
+          .attr("text-anchor", "middle")
+          .style("font-size", "16px");
+      g.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + g_height + ")")
+          .call(xAxis);
+      g.append("g")
+          .attr("class", "y axis")
+          .call(yAxis);
+      g.append("path")
+            .attr("d", line(line_data));
+    });
+</script>
 {% endblock %}
 {% block body %}
-<p></p>
-<p></p>
 <a href="{{ url_for('realms') }}">Currently tracking {{ realm_count }} realms</a>
-  <svg width=1000 height=200>
-      <rect width=200 height=50></rect>
-      <rect y=60 width=200 height=50></rect>
-  </svg>
+<br>
+<svg width=600 height=300></svg>
 {% endblock %}

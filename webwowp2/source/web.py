@@ -21,7 +21,7 @@ def index():
     auc_dates = [x[0].isoformat() for x in auc_day]
     auc_sums = [x[1] for x in auc_day]
     print("\n###########################\n", file=sys.stderr)
-    print([auc_dates, type(auc_dates), type(auc_dates[0])], file=sys.stderr)
+    print([auc_day[0]], file=sys.stderr)
     return render_template("index.html", 
             realm_count=realm_count,
             auc_dates=json.dumps(auc_dates),
