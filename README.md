@@ -40,3 +40,4 @@ Assuming you work on _localhost_ and you have not created a database yet. Then:
 
 This project was forked from: https://github.com/shokodash/wow_economy
 
+# Test for slack integration
